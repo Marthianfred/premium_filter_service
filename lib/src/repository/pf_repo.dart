@@ -156,4 +156,15 @@ class PFRepo {
     });
     return response;
   }
+
+  Future<Response> GetFiltro({
+    required String pfRef,
+    required String lang,
+  }) async {
+    final response = await apiClient.postData('GetFiltro', {
+      "PF_Ref": pfRef,
+      "sIdioma": lang,
+    });
+    return response;
+  }
 }
