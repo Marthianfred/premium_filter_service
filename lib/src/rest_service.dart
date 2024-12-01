@@ -3,10 +3,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:get/get_connect/http/src/request/request.dart';
+import 'package:get/get_connect/http/src/http.dart' as http;
 import 'package:retry/retry.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pf_service/src/model/body/error_response.dart';
@@ -49,7 +48,7 @@ class RestService extends GetxService {
   String? token;
   late Map<String, String> _mainHeaders;
 
-  List<http.Client> _clients = [];
+  List<http.GetHttpClient> _clients = [];
 
   /// {{@template hasInternetConnection}}
   /// Check if the device has internet connection
@@ -103,14 +102,14 @@ class RestService extends GetxService {
       if (!hasInternet) {
         return const Response(statusCode: 1, statusText: noInternetMessage);
       }
-      var client = http.Client();
+      var client = http.GetHttpClient();
       _clients.add(client);
 
       final response = await retry(
         maxAttempts: 2,
         () => client
             .post(
-              Uri.parse(isDev ? '$appBaseDevUrl$uri' : '$appBaseUrl$uri'),
+              Uri.parse(isDev ? '$appBaseDevUrl$uri' : '$appBaseUrl$uri').toString(),
               body: jsonEncode(body),
               headers: headers ?? _mainHeaders,
             )
@@ -130,7 +129,7 @@ class RestService extends GetxService {
   /// {{@template handleResponse}}
   /// Handle the response from the API
   /// {{@endtemplate}}
-  Response<dynamic> handleResponse(http.Response response, String uri) {
+  Response<dynamic> handleResponse(Response response, String uri) {
     dynamic body;
     try {
       body = jsonDecode(response.body);
@@ -145,10 +144,10 @@ class RestService extends GetxService {
       ),
       headers: response.headers,
       statusCode: response.statusCode,
-      statusText: response.reasonPhrase,
+      statusText: response.statusText,
     );
     if (response0.statusCode != null) {
-      if (response0.statusCode! < 200 || response.statusCode > 299) {
+      if (response0.statusCode! < 200 || response.statusCode! > 299) {
         final errorResponse = ErrorsData.fromJson(response0.body);
         response0 = Response(
           statusCode: response0.statusCode,
@@ -175,20 +174,4 @@ class RestService extends GetxService {
     }
     _clients.clear();
   }
-}
-
-/// {@template multipart_body}
-/// Multipart Body
-/// {@endtemplate}
-class MultipartBody {
-  /// {@macro multipart_body}
-  /// [key] is the key of the file
-  /// [file] is the file to be uploaded
-  MultipartBody(this.key, this.file);
-
-  /// Key
-  String key;
-
-  /// File
-  XFile? file;
 }

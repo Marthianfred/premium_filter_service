@@ -1,4 +1,4 @@
-import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:pf_service/pf_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,6 +1,6 @@
 name: pf_service
 description: Premium Filter API Service
-version: 0.0.1+2
+version: 0.0.2
 publish_to: none
 
 environment:
@@ -12,15 +12,8 @@ dependencies:
     sdk: flutter
   shared_preferences: ^2.2.2
   retry: ^3.1.2
-  flutter_image_compress: ^2.2.0
-  http_parser: ^4.0.2
   get: ^4.6.6
-  decimal: ^3.0.2
-  connectivity_plus: ^6.0.3
-  http: ^1.2.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mocktail: ^1.0.3
-  very_good_analysis: ^6.0.0
