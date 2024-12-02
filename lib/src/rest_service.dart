@@ -4,15 +4,11 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/request/request.dart';
 import 'package:get/get_connect/http/src/http.dart' as http;
 import 'package:retry/retry.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pf_service/src/model/body/error_response.dart';
 
-/// {@template pf_service}
-/// Pagando API RestService
-/// {@endtemplate}
 class RestService extends GetxService {
   /// {@macro pf_service}
   RestService({
@@ -50,9 +46,6 @@ class RestService extends GetxService {
 
   List<http.GetHttpClient> _clients = [];
 
-  /// {{@template hasInternetConnection}}
-  /// Check if the device has internet connection
-  /// {{@endtemplate}}
   Future<bool> hasInternetConnection() async {
     try {
       if(GetPlatform.isWeb) return true;
@@ -71,9 +64,6 @@ class RestService extends GetxService {
     return false;
   }
 
-  ///{{@template updateHeader}}
-  /// Update the header with the token, and set the header if [setHeader] is true
-  ///{{@endtemplate}}
   Map<String, String> updateHeader(String? token, {bool setHeader = true}) {
     late Map<String, String> header = <String, String>{'Content-Type': 'application/json; charset=UTF-8'};
 
@@ -87,9 +77,6 @@ class RestService extends GetxService {
     return header;
   }
 
-  /// {{@template postData}}
-  /// Post data to the API
-  /// {{@endtemplate}}
   Future<Response<dynamic>> postData(String uri, dynamic body, {Map<String, String>? headers, int? timeout}) async {
     try {
       if (kDebugMode) {
@@ -126,46 +113,27 @@ class RestService extends GetxService {
     }
   }
 
-  /// {{@template handleResponse}}
-  /// Handle the response from the API
-  /// {{@endtemplate}}
-  Response<dynamic> handleResponse(Response response, String uri) {
-    dynamic body;
-    try {
-      body = jsonDecode(response.body);
-    } catch (_) {}
-    var response0 = Response(
-      body: body ?? response.body,
-      bodyString: response.body,
-      request: Request(
-        headers: response.request!.headers,
-        method: response.request!.method,
-        url: response.request!.url,
-      ),
-      headers: response.headers,
-      statusCode: response.statusCode,
-      statusText: response.statusText,
-    );
-    if (response0.statusCode != null) {
-      if (response0.statusCode! < 200 || response.statusCode! > 299) {
-        final errorResponse = ErrorsData.fromJson(response0.body);
-        response0 = Response(
-          statusCode: response0.statusCode,
-          body: response0.body,
+  Response handleResponse(Response response, String uri) {
+    if (response.statusCode != null) {
+      if (response.statusCode! < 200 || response.statusCode! > 299) {
+        final errorResponse = ErrorsData.fromJson(response.body);
+        return Response(
+          statusCode: response.statusCode,
+          body: response.body,
           statusText: errorResponse.message,
         );
-      } else if (response0.statusCode != 200 && response0.body == null) {
-        response0 = const Response(statusCode: 0, statusText: noInternetMessage);
+      } else if (response.statusCode != 200 && response.body == null) {
+        return Response(statusCode: 0, statusText: noInternetMessage);
       }
     }
 
     if (kDebugMode) {
-      print('====> API Response: [${response0.statusCode}] $uri');
+      print('====> API Response: [${response.statusCode}] $uri');
       if (response.statusCode != 500) {
-        print('${response0.body}');
+        print('${response.body}');
       }
     }
-    return response0;
+    return response;
   }
 
   void cancelAllRequests() {
