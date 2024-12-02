@@ -10,7 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pf_service/src/model/body/error_response.dart';
 
 class RestService extends GetxService {
-  /// {@macro pf_service}
   RestService({
     required this.appBaseUrl,
     required this.appBaseDevUrl,
@@ -22,25 +21,18 @@ class RestService extends GetxService {
     updateHeader(token);
   }
 
-  /// var to enable dev or prod
   final bool isDev;
 
-  /// Base URL of the DEV API
   final String appBaseDevUrl;
 
-  /// Base URL of the API
   final String appBaseUrl;
 
-  // ignore: public_member_api_docs
   final SharedPreferences store;
 
-  /// No internet message
   static const String noInternetMessage = 'Network connection failed. Please try again.';
 
-  /// Timeout in seconds
   final int timeoutInSeconds = 30;
 
-  /// Token
   String? token;
   late Map<String, String> _mainHeaders;
 
@@ -85,11 +77,11 @@ class RestService extends GetxService {
         print('====> Header: $_mainHeaders');
         print('====> API Body: $body');
       }
-      bool hasInternet = await hasInternetConnection();
-      if (!hasInternet) {
-        return const Response(statusCode: 1, statusText: noInternetMessage);
-      }
-      var client = http.GetHttpClient();
+      // bool hasInternet = await hasInternetConnection();
+      // if (!hasInternet) {
+      //   return const Response(statusCode: 1, statusText: noInternetMessage);
+      // }
+      GetHttpClient client = http.GetHttpClient();
       _clients.add(client);
 
       final response = await retry(
