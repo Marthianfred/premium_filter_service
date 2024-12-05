@@ -1,6 +1,6 @@
 name: pf_service
 description: Premium Filter API Service
-version: 0.0.5
+version: 0.0.6
 publish_to: none
 
 environment:
