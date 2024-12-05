@@ -2,19 +2,19 @@ import 'dart:convert';
 
 class Filter {
   final String pfRef;
-  final String refLinea;
-  final String tipoFiltro;
-  final int idTipoFF;
+  final String? refLinea;
+  final String? tipoFiltro;
+  final int? idTipoFF;
   final String? tipo;
-  final String etAl;
-  final String dAlto;
-  final String dAltoIn;
-  final String etLar;
-  final String dLargo;
-  final String dLargoIn;
-  final String etAncho;
-  final String dAncho;
-  final String dAnchoIn;
+  final String? etAl;
+  final String? dAlto;
+  final String? dAltoIn;
+  final String? etLar;
+  final String? dLargo;
+  final String? dLargoIn;
+  final String? etAncho;
+  final String? dAncho;
+  final String? dAnchoIn;
   final String? etAdd01;
   final String? dAdd01;
   final String? dAdd01In;
@@ -24,20 +24,20 @@ class Filter {
   final String? etAdd03;
   final String? dAdd03;
   final String? dAdd03In;
-  final int dAl;
-  final int dLa;
-  final int dLaA;
-  final int dAn;
+  final int? dAl;
+  final int? dLa;
+  final int? dLaA;
+  final int? dAn;
   final String? dEx;
   final String? dIn;
   final String appImg;
-  final int idLin;
-  final String prefLinea;
-  final String imgX;
-  final String img;
-  final String pdf;
-  final String store;
-  final String app;
+  final int? idLin;
+  final String? prefLinea;
+  final String? imgX;
+  final String? img;
+  final String? pdf;
+  final String? store;
+  final String? app;
 
   Filter({
     required this.pfRef,
