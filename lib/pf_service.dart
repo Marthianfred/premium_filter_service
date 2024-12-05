@@ -12,7 +12,7 @@ export 'src/model/response/year_model.dart';
 export 'src/model/response/model_model.dart';
 export 'src/model/response/engine_model.dart';
 export 'src/model/response/get_filter_aire_ac_model.dart';
-
+export 'src/model/response/get_filtro_model.dart';
 export 'src/model/response/get_filter_aire_model.dart';
 export 'src/model/response/get_filter_fuel_model.dart';
 export 'src/model/response/get_filter_oil_model.dart';
